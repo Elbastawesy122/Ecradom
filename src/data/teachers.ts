@@ -60,3 +60,10 @@ export const teachers: Teacher[] = [
 
 export const teacherSubjects: string[] = Array.from(new Set(teachers.map((teacher) => teacher.subject)));
 export const teacherLevels: string[] = Array.from(new Set(teachers.map((teacher) => teacher.level)));
+
+export const teacherEducationQualifications: string[] = [
+  "Bachelor's Degree",
+  "Master's Degree",
+  "PhD",
+  "Diploma",
+];

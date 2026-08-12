@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, Users } from "lucide-react";
+import { Briefcase, Check, FileText, Lock, Plus, Settings, User, Users, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useId, useState } from "react";
 import type { FormEvent } from "react";
@@ -12,7 +12,7 @@ import Input from "@/components/ui/Input";
 import PasswordInput from "@/components/ui/PasswordInput";
 import Select from "@/components/ui/Select";
 import Toggle from "@/components/ui/Toggle";
-import { teacherLevels, teacherSubjects } from "@/data/teachers";
+import { teacherEducationQualifications, teacherLevels, teacherSubjects } from "@/data/teachers";
 
 function UploadButton({ label }: { label: string }) {
   const inputId = useId();
@@ -61,31 +61,41 @@ export default function TeacherForm() {
         <div>
           <h2 className="text-lg font-semibold text-white">Add New Teacher</h2>
           <p className="mt-1 text-sm text-white/70">
-            Fill in the details below to onboard a new teacher on the platform.
+            Fill in the details below to register a new teacher on the platform.
           </p>
         </div>
       </div>
 
-      <FormSection title="PERSONAL INFORMATION">
-        <Input id="full-name" label="Full name" placeholder="e.g. Ahmed Hassan" required />
-        <Input id="email" type="email" label="Email address" placeholder="teacher@example.com" required />
-        <Input id="phone" type="tel" label="Phone number" placeholder="+20 100 0000000" />
-        <Input id="address" label="Home address" placeholder="Street, city, country" />
-        <div className="sm:col-span-2">
-          <span className="text-sm font-medium text-black">Teacher Photo</span>
-          <div className="mt-1.5">
-            <FileUpload label="Teacher Photo" hint="JPG, PNG - max 5 MB" />
+      <FormSection title="PERSONAL INFORMATION" icon={User}>
+        <div className="flex flex-col gap-6 sm:col-span-2 sm:flex-row">
+          <div className="shrink-0">
+            <FileUpload label="Profile Photo" hint="JPG, PNG · max 5 MB" compact />
+          </div>
+          <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-2">
+            <Input id="full-name" label="Full name" placeholder="e.g. Ahmed Hassan" required />
+            <Input id="email" type="email" label="Email address" placeholder="teacher@example.com" required />
+            <Input id="phone" type="tel" label="Phone number" placeholder="+20 100 0000000" />
+            <Input id="national-id" label="National ID" placeholder="e.g. 29001010123456" />
           </div>
         </div>
       </FormSection>
 
-      <FormSection title="PROFESSIONAL INFORMATION">
-        <Select id="subject" label="Course / Subject" placeholder="Select course" options={teacherSubjects} />
-        <Select id="level" label="Teaching Level" placeholder="Select level" options={teacherLevels} />
+      <FormSection title="PROFESSIONAL INFORMATION" icon={Briefcase} accent="orange">
+        <Input id="specialization" label="Specialization" placeholder="e.g. Computer Science" />
+        <Select id="subject" label="Subject" placeholder="Select subject" options={teacherSubjects} />
+        <Select id="level" label="Academic Level" placeholder="Select level" options={teacherLevels} />
         <Input id="experience" label="Years of experience" placeholder="e.g. 5 yrs" />
+        <div className="sm:col-span-2">
+          <Select
+            id="education"
+            label="Education Qualification"
+            placeholder="Select qualification"
+            options={teacherEducationQualifications}
+          />
+        </div>
       </FormSection>
 
-      <FormSection title="SECURITY">
+      <FormSection title="SECURITY" icon={Lock}>
         <PasswordInput
           id="password"
           label="Password"
@@ -107,22 +117,30 @@ export default function TeacherForm() {
         ) : null}
       </FormSection>
 
-      <FormSection title="PROFILE PHOTO UPLOAD">
-        <div className="flex flex-col gap-3 sm:col-span-2 sm:flex-row">
-          <UploadButton label="Upload Photo" />
-          <UploadButton label="Upload Documents" />
+      <FormSection title="DOCUMENTS" icon={FileText} accent="orange">
+        <div className="flex flex-wrap gap-3 sm:col-span-2">
+          <UploadButton label="Upload Certificates" />
+          <UploadButton label="Upload CV" />
+          <UploadButton label="Upload ID Copy" />
         </div>
       </FormSection>
 
       <section className="border-t border-black/5 px-6 py-6 sm:px-8">
-        <h3 className="text-xs font-semibold tracking-wide text-[#001069]">ACCOUNT SETTINGS</h3>
+        <div className="flex items-center gap-2.5">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#001069]/10 text-[#001069]">
+            <Settings className="h-3.5 w-3.5" />
+          </span>
+          <h3 className="text-xs font-semibold tracking-wide text-[#001069]">ACCOUNT SETTINGS</h3>
+        </div>
         <div className="mt-4 flex items-center justify-between gap-4 rounded-xl border border-black/5 bg-[#F9F9FB] px-5 py-4">
           <div>
             <p className="text-sm font-semibold text-black">Account Status</p>
-            <p className="text-sm text-gray-500">Teacher can log in and manage classes</p>
+            <p className="text-sm text-gray-500">Teacher can log in and access the platform</p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-[#001069]">{active ? "Active" : "Inactive"}</span>
+            <span className={`text-sm font-medium ${active ? "text-green-600" : "text-gray-400"}`}>
+              {active ? "Active" : "Inactive"}
+            </span>
             <Toggle checked={active} onChange={setActive} label="Account status" />
           </div>
         </div>
@@ -130,9 +148,11 @@ export default function TeacherForm() {
 
       <div className="flex flex-col gap-3 border-t border-black/5 px-6 py-6 sm:flex-row sm:px-8">
         <Button type="submit" variant="primary">
+          <Check className="h-4 w-4" />
           Save Teacher
         </Button>
         <Button variant="outline" onClick={() => router.push("/teachers")}>
+          <X className="h-4 w-4" />
           Cancel
         </Button>
       </div>

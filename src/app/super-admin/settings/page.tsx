@@ -1,14 +1,12 @@
 import { Download } from "lucide-react";
 
-import DashboardChart from "@/components/dashboard/DashboardChart";
-import ListCard from "@/components/dashboard/ListCard";
-import StatCard from "@/components/dashboard/StatCard";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import SettingsCard from "@/components/super-admin/SettingsCard";
 import PageTabs from "@/components/ui/PageTabs";
-import { chartData, recentActivity, statCards, topMaterials } from "@/data/dashboard";
+import { settingsItems } from "@/data/settings";
 
-export default function SuperAdminPage() {
+export default function SuperAdminSettingsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-[#F9F9FB]">
       <Header />
@@ -33,29 +31,17 @@ export default function SuperAdminPage() {
           <div className="mt-6">
             <PageTabs
               items={[
-                { label: "Overview", href: "/super-admin", active: true },
+                { label: "Overview", href: "/super-admin", active: false },
                 { label: "Users", href: "/super-admin/users", active: false },
-                { label: "Settings", href: "/super-admin/settings", active: false },
+                { label: "Settings", href: "/super-admin/settings", active: true },
               ]}
             />
           </div>
 
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5 lg:gap-6">
-            {statCards.map((stat) => (
-              <StatCard key={stat.label} {...stat} />
+          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {settingsItems.map((item) => (
+              <SettingsCard key={item.title} {...item} />
             ))}
-          </div>
-
-          <div className="mt-8 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-black">Platform Overview</h2>
-            <div className="mt-4">
-              <DashboardChart data={chartData} />
-            </div>
-          </div>
-
-          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-            <ListCard title="Recent Activity" items={recentActivity} />
-            <ListCard title="Top Materials" items={topMaterials} />
           </div>
         </div>
       </main>

@@ -1,5 +1,7 @@
 "use client";
 
+import { ClipboardList } from "lucide-react";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import Avatar from "@/components/ui/Avatar";
@@ -82,7 +84,7 @@ export default function StudentTable({ students }: StudentTableProps) {
       </div>
 
       <div className="mt-6 overflow-x-auto">
-        <table className="w-full min-w-[960px] border-collapse text-left text-sm">
+        <table className="w-full min-w-[1080px] border-collapse text-left text-sm">
           <thead>
             <tr className="bg-[#001069] text-white">
               <th className="rounded-l-lg px-4 py-3 font-medium">#</th>
@@ -92,7 +94,8 @@ export default function StudentTable({ students }: StudentTableProps) {
               <th className="px-4 py-3 font-medium">Grade</th>
               <th className="px-4 py-3 font-medium">Section</th>
               <th className="px-4 py-3 font-medium">Guardian</th>
-              <th className="rounded-r-lg px-4 py-3 font-medium">Joined</th>
+              <th className="px-4 py-3 font-medium">Joined</th>
+              <th className="rounded-r-lg px-4 py-3 font-medium">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -121,11 +124,20 @@ export default function StudentTable({ students }: StudentTableProps) {
                   <p className="text-xs text-gray-400">{student.guardianPhone}</p>
                 </td>
                 <td className="px-4 py-4 text-gray-500">{student.joined}</td>
+                <td className="px-4 py-4">
+                  <Link
+                    href="/students/evaluation"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-[#4577EF]/10 px-3 py-1.5 text-xs font-medium text-[#4577EF] transition hover:bg-[#4577EF]/20"
+                  >
+                    <ClipboardList className="h-3.5 w-3.5" />
+                    Evaluate
+                  </Link>
+                </td>
               </tr>
             ))}
             {pagedStudents.length === 0 ? (
               <tr>
-                <td colSpan={8} className="px-4 py-10 text-center text-sm text-gray-400">
+                <td colSpan={9} className="px-4 py-10 text-center text-sm text-gray-400">
                   No students match your search or filters.
                 </td>
               </tr>
